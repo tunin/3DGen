@@ -62,12 +62,22 @@ Robô paramétrico em [OpenSCAD](https://openscad.org) com ~15 cm de altura:
 
 ## Regenerar os STLs
 
-Requer `openscad` (e `xvfb` para as imagens). Linux:
+Requer `openscad` (e `xvfb` para as imagens no Linux). Linux:
 
 ```bash
 make            # gera stl/*.stl
 make img        # gera img/*.png (xvfb-run)
 ```
+
+Windows (Git Bash, sem `make`/`xvfb`):
+
+```bash
+./render_stl.sh   # gera stl/*.stl
+./render_img.sh   # gera img/*.png
+```
+
+Se `openscad` não estiver no `PATH`, os scripts usam
+`C:\Program Files\OpenSCAD\openscad.com` ou a variável `OPENSCAD`.
 
 Ou diretamente:
 
