@@ -29,11 +29,15 @@ module base() {
                     rotate([0, -x * 90, 0])
                         cylinder(d = 12, h = 4 + parede);
 
+            for (y = [-1, 1])
+                translate([0, y * aa_bay_d/6, suporte_z/2])
+                    cube([base_w - parede, 3, suporte_z], center = true);
+
             // ---------- batentes dos cantos da baia das pilhas ----------
             for (x = [-1, 1], y = [-1, 1])
                 translate([x * (aa_bay_w/2 + 1.5),
-                           y * (aa_bay_d/2 + 1.5), parede + 2.5])
-                    cube([3, 3, 5], center = true);
+                           y * (aa_bay_d/2 + 1.5), (suporte_z + 5)/2])
+                    cube([3, 3, suporte_z + 5], center = true);
         }
 
         // ---------- furos dos eixos (atravessam parede + bucha) ----------
@@ -48,7 +52,7 @@ module base() {
                 cylinder(d = 2.6, h = base_h + 0.2);
 
         // ---------- rasgo de passagem do cabo das pilhas ----------
-        translate([aa_bay_w/2 - 6, base_d/2 - parede - 1, -0.1])
+        translate([aa_bay_w/2 - 6, base_d/2 - parede - 1, suporte_z])
             cube([10, parede + 2.2, 7]);
     }
 }

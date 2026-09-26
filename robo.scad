@@ -34,29 +34,31 @@ z_cabeca = z_corpo + corpo_h; // cabeça sobre o torso
 
 // ---------- braço montado (ombro + cotovelo articulados) ----------
 module braco_montado() {
-    // segmento superior inclinado para fora e para baixo
-    rotate([0, 65, 0])
-        braco_sup();
-    // antebraço a partir do cotovelo
-    translate([brac_a * cos(65), 0, -brac_a * sin(65)])
-        rotate([0, 40, 0])
-            braco_inf();
+    rotate([90, 0, 90]) {
+        // segmento superior inclinado para fora e para baixo
+        rotate([0, 0, -65])
+            braco_sup();
+        // antebraço a partir do cotovelo
+        translate([brac_a * cos(65), -brac_a * sin(65), braco_e + folga])
+            rotate([0, 0, -40])
+                braco_inf();
+    }
 }
 
 module montagem() {
     // chassi
     color("#3f7fbf") translate([0, 0, z_base]) base();
     // berço das pilhas
-    color("#e0a030") translate([0, 0, z_base + parede])
+    color("#e0a030") translate([0, 0, z_base + suporte_z])
         suporte_pilhas();
     // eixos + rodas
     for (y = [-1, 1]) {
         color("#c04040")
-            translate([-55, y * roda_y, z_base + eixo_z])
+            translate([eixo_x, y * roda_y, z_base + eixo_z])
                 eixo();
         for (x = [-1, 1])
             color("#404040")
-                translate([x * 48, y * roda_y, z_base + eixo_z])
+                translate([x * roda_x, y * roda_y, z_base + eixo_z])
                     rotate([0, 90, 0]) roda();
     }
     // torso
@@ -66,9 +68,9 @@ module montagem() {
     // braços nos ombros
     for (x = [-1, 1])
         color("#8060c0")
-            translate([x * (corpo_w/2 + 5), 0,
+            translate([x * (corpo_w/2 + 5 + folga), 0,
                        z_corpo + corpo_h - 14])
-                rotate([0, 0, x > 0 ? 0 : 180])
+                scale([x, 1, 1])
                     braco_montado();
 }
 

@@ -21,6 +21,10 @@ module suporte_pilhas() {
     difference() {
         rbox(cr_w, cr_d, cr_h, 2);
 
+        for (x = [-1, 1], y = [-1, 1])
+            translate([x * mont_x, y * mont_y, -0.1])
+                cylinder(d = 11 + 2*folga, h = cr_h + 0.2);
+
         // canais das pilhas (abertos no topo — efeito mola)
         for (x = xs)
             translate([x, 0, 3 + aa_dia/2])

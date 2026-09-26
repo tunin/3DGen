@@ -6,7 +6,7 @@
 
 include <../parametros.scad>
 
-pino_l = 12;   // comprimento útil (parede + ressalto + braço)
+pino_l = max(2*braco_e, parede + 5 + braco_e) + folga + 2;   // comprimento útil (parede + ressalto + braço)
 
 module pino() {
     union() {

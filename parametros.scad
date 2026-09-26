@@ -18,10 +18,10 @@ eixo_l   = 112;     // comprimento do eixo (haste + chanfro)
 // ---------- base (chassi) ----------
 base_w  = 84;       // largura (X)
 base_d  = 74;       // profundidade (Y)
-base_h  = 22;       // altura
+base_h  = 40;       // altura
 parede  = 2.4;      // espessura das paredes (todas as peças)
 eixo_z  = 12;       // altura do centro do eixo medida do fundo do chassi
-roda_y  = 15;       // distância do centro do chassi ao centro de cada roda (Y)
+roda_y  = roda_d/2 + 3;       // distância do centro do chassi ao centro de cada roda (Y)
 
 // ---------- compartimento das pilhas ----------
 // baia dimensionada para suporte comercial 4xAA (~62 x 58 x 17)
@@ -30,6 +30,17 @@ aa_bay_w = 72;
 aa_bay_d = 58;
 aa_dia   = 14.5;    // diâmetro da pilha AA
 aa_comp  = 50.5;    // comprimento da pilha AA
+suporte_z = eixo_z + 6 + 2*folga;
+roda_x = base_w/2 + 2*folga + roda_w/2;
+eixo_x = -roda_x - roda_w/2 - folga;
+
+assert(2*roda_y >= roda_d + 2, "Rodas sem folga longitudinal");
+assert(roda_y + 6 <= base_d/2, "Buchas fora do chassi");
+assert(suporte_z + max(3 + aa_dia, 17) + folga <= base_h,
+       "Pilhas acima do topo do chassi");
+assert(eixo_z - eixo_d/2 - folga >= parede, "Eixo invade o fundo do chassi");
+assert(eixo_x + eixo_l - 4 >= roda_x + roda_w/2 + folga + 2,
+       "Eixo curto para as rodas e a trava");
 
 // ---------- corpo (torso) ----------
 // mesma pegada do chassi: as paredes alinham e as colunas de

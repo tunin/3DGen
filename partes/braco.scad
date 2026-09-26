@@ -30,19 +30,19 @@ module braco_inf() {
                     translate([p, 0, 0])
                         cylinder(r = brac_r, h = braco_e);
             // palma
-            translate([brac_b, 0, 0])
+            translate([brac_b, -brac_r, 0])
                 cube([2 * brac_r, 2 * brac_r, braco_e]);
             // dedos da garra
             for (y = [-1, 1])
                 translate([brac_b + 2 * brac_r - 1,
-                           y * (brac_r - 1.5), 0])
+                           y * (brac_r - 1.5) - 1.5, 0])
                     cube([12, 3, braco_e]);
         }
         // furo da articulação (cotovelo)
         translate([0, 0, -0.1])
             cylinder(d = braco_furo, h = braco_e + 0.2);
         // abertura entre os dedos da garra
-        translate([brac_b + 2 * brac_r + 9, 0, -0.1])
+        translate([brac_b + 2 * brac_r + 9, 0, braco_e/2])
             cube([8, 8.2, braco_e + 0.2], center = true);
         // boca da garra (entalhe interno)
         translate([brac_b + 2 * brac_r + 1, 0, -0.1])
