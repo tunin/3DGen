@@ -25,9 +25,8 @@ module base() {
 
             // ---------- buchas dos eixos (dentro do casco) ----------
             for (x = [-1, 1], y = [-1, 1])
-                translate([x * (base_w/2 - parede - 4),
-                           y * roda_y, eixo_z])
-                    rotate([0, 90, 0])
+                translate([x * base_w/2, y * roda_y, eixo_z])
+                    rotate([0, -x * 90, 0])
                         cylinder(d = 12, h = 4 + parede);
 
             // ---------- batentes dos cantos da baia das pilhas ----------
