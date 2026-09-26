@@ -12,6 +12,14 @@ Robô paramétrico em [OpenSCAD](https://openscad.org) com ~17 cm de altura:
 
 ![Montagem](img/montagem.png)
 
+**[Manual ilustrado de montagem (PDF)](manual/manual_montagem.pdf)** —
+8 etapas em português, com vistas de encaixe e observações essenciais.
+
+Para regenerar o PDF com as peças atuais, instale as dependências de
+`manual/requirements.txt` e execute `python manual/gerar_manual.py`.
+Requer OpenSCAD; `OPENSCAD` permite indicar o executável. O gerador reutiliza
+as imagens intermediárias em `manual/.cache/`; use `--force` para refazê-las.
+
 ## Peças para imprimir
 
 | Arquivo STL | Qtd | Observações |
