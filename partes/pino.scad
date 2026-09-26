@@ -6,7 +6,7 @@
 
 include <../parametros.scad>
 
-pino_l = max(2*braco_e, parede + 5 + braco_e) + folga + 2;   // comprimento útil (parede + ressalto + braço)
+pino_l = max(2*braco_e, parede + 5 + braco_e) + folga + 3;   // comprimento útil (parede + ressalto + braço)
 
 module pino() {
     union() {
@@ -24,7 +24,7 @@ module trava_pino() {
     difference() {
         cylinder(d = 9, h = 4);
         translate([0, 0, -0.1])
-            cylinder(d = braco_furo - 0.9, h = 4.2);
+            cylinder(d = braco_furo - 0.5 - aperto_trava, h = 4.2);
     }
 }
 

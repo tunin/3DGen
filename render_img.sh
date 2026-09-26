@@ -9,7 +9,7 @@ command -v "$OPENSCAD" >/dev/null 2>&1 || OPENSCAD="/c/Program Files/OpenSCAD/op
 if command -v xvfb-run >/dev/null 2>&1; then XVFB="xvfb-run -a"; else XVFB=""; fi
 
 render() { # parte camera
-  $XVFB "$OPENSCAD" --render -o "img/$1.png" --imgsize=900,700 \
+  $XVFB "$OPENSCAD" --render -o "img/$1.png" --imgsize=900,700 --autocenter --viewall \
       --camera="$2" -D "part=\"$1\"" robo.scad
 }
 

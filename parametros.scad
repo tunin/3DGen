@@ -8,6 +8,10 @@ $fs = 0.5;
 
 // ---------- tolerância de impressão ----------
 folga = 0.3;        // folga padrão em furos/encaixes
+folga_berco = 0.6;
+aperto_trava = 0.1;
+passagem_w = 12;
+passagem_d = 8;
 
 // ---------- roda ----------
 roda_d   = 36;      // diâmetro da roda
@@ -50,17 +54,22 @@ corpo_d = 74;
 corpo_h = 62;
 
 // posição das colunas de fixação torso↔base (parafuso M3)
-mont_x = 35;
+mont_x = 36.5;
 mont_y = 32;
+acesso_m3_d = 7;
 
 // ---------- micro:bit ----------
 mb_w    = 51.6;     // largura da placa
 mb_h    = 42;       // altura da placa
 mb_prof = 11;       // profundidade do bolso (placa + componentes + fios)
+mb_base_z = 18;
 
 // ---------- botões ----------
 botao_d   = 12.4;   // botão de painel de 12 mm
 botao_sep = 26;     // distância entre centros dos botões
+botao_z = 9;
+botao_prof = 10;
+botao_porca_d = 16;
 
 // ---------- cabeça ----------
 cab_w   = 58;
@@ -68,6 +77,16 @@ cab_d   = 50;
 cab_h   = 48;
 led_tam = 33;       // janela p/ matriz LED 8x8 (~32 mm) ou OLED pequeno
 led_prof = 8;       // profundidade do alojamento do display
+led_base_z = 8;
+cab_pino_h = led_base_z - 3 - 2*folga;
+
+assert(mb_base_z + mb_h + folga <= corpo_h, "Microbit acima do torso");
+assert(led_base_z + led_tam + folga <= cab_h - parede, "Display acima da cabeca");
+assert(cab_pino_h > parede, "Pino da cabeca sem engate");
+assert(botao_z + botao_porca_d/2 + folga <= mb_base_z, "Botoes invadem a placa");
+assert(botao_prof + folga < mb_prof + 2*folga, "Botoes invadem o painel interno");
+assert(acesso_m3_d >= 6 + 2*folga, "Acesso insuficiente para cabeca do parafuso");
+assert(aperto_trava > 0 && aperto_trava <= 0.2, "Calibre a interferencia das travas");
 
 // ---------- braço ----------
 braco_furo = 4.4;   // furo da articulação (parafuso M4 ou pino impresso)

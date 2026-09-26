@@ -45,6 +45,17 @@ module braco_montado() {
     }
 }
 
+module fixadores_braco() {
+    translate([-(parede + 5 + 2*folga + 2), 0, 0])
+        rotate([0, 90, 0]) pino();
+    translate([braco_e + folga, 0, 0])
+        rotate([0, 90, 0]) trava_pino();
+    translate([-2 - folga, brac_a*cos(65), -brac_a*sin(65)])
+        rotate([0, 90, 0]) pino();
+    translate([2*braco_e + 2*folga, brac_a*cos(65), -brac_a*sin(65)])
+        rotate([0, 90, 0]) trava_pino();
+}
+
 module montagem() {
     // chassi
     color("#3f7fbf") translate([0, 0, z_base]) base();
@@ -56,6 +67,9 @@ module montagem() {
         color("#c04040")
             translate([eixo_x, y * roda_y, z_base + eixo_z])
                 eixo();
+        color("#c04040")
+            translate([roda_x + roda_w/2 + folga, y * roda_y, z_base + eixo_z])
+                rotate([0, 90, 0]) trava_eixo();
         for (x = [-1, 1])
             color("#404040")
                 translate([x * roda_x, y * roda_y, z_base + eixo_z])
@@ -70,15 +84,17 @@ module montagem() {
         color("#8060c0")
             translate([x * (corpo_w/2 + 5 + folga), 0,
                        z_corpo + corpo_h - 14])
-                scale([x, 1, 1])
+                scale([x, 1, 1]) {
                     braco_montado();
+                    fixadores_braco();
+                }
 }
 
 if (part == "montagem")       montagem();
 else if (part == "base")           base();
 else if (part == "suporte_pilhas") suporte_pilhas();
 else if (part == "roda")           roda();
-else if (part == "eixo")           { eixo(); translate([10,0,0]) trava_eixo(); }
+else if (part == "eixo")           eixo_impressao();
 else if (part == "corpo")          corpo();
 else if (part == "cabeca")         cabeca();
 else if (part == "braco")          braco();

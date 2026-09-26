@@ -23,10 +23,14 @@ module trava_eixo() {
     difference() {
         cylinder(d = 10, h = 4);
         translate([0, 0, -0.1])
-            cylinder(d = eixo_d - 0.4, h = 4.2);
+            cylinder(d = eixo_d - 0.1 - aperto_trava, h = 4.2);
     }
 }
 
 // layout para impressão: eixo + trava lado a lado
-eixo();
-translate([10, 0, 0]) trava_eixo();
+module eixo_impressao() {
+    translate([0, 0, 2]) rotate([0, -90, 0]) eixo();
+    translate([14, 0, 0]) trava_eixo();
+}
+
+eixo_impressao();

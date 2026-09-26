@@ -13,8 +13,8 @@ include <../parametros.scad>
 wz       = corpo_h - 22;                       // centro da janela (Z)
 mbolso_w = mb_w + 2;                           // largura interna do bolso
 mbolso_h = mb_h + 4;                           // altura interna do bolso
-mb_y     = -corpo_d/2 + parede + mb_prof/2;    // eixo Y da placa
-z_fundo  = wz - mbolso_h/2 - 1;                // topo das prateleiras
+mb_y     = -corpo_d/2 + parede + folga + mb_prof/2;    // eixo Y da placa
+z_fundo  = mb_base_z;                // topo das prateleiras
 trilho_h = corpo_h - z_fundo;                  // altura dos trilhos
 
 module corpo() {
@@ -33,7 +33,7 @@ module corpo() {
                 translate([x * (mbolso_w/2 + 2), mb_y,
                            z_fundo + trilho_h/2])
                     difference() {
-                        cube([4, mb_prof, trilho_h], center = true);
+                        cube([4, mb_prof + 2*folga + 0.2, trilho_h], center = true);
                         // canaleta por onde a placa desliza
                         translate([-x * 1.1, 0, 0])
                             cube([2.2, 3.4, trilho_h + 2],
@@ -44,12 +44,12 @@ module corpo() {
             // apoiam a placa pelas bordas e deixam o centro livre
             for (x = [-1, 1])
                 translate([x * 30, mb_y, z_fundo - 1.5])
-                    cube([11.5, mb_prof, 3], center = true);
+                    cube([11.5, mb_prof + 2*folga + 0.2, 3], center = true);
 
             // ---------- painel traseiro do bolso ----------
             // cobre o bolso e os botões, escondendo o interior
-            translate([0, -23, (8 + corpo_h)/2])
-                cube([mbolso_w + 8, 2, corpo_h - 8], center = true);
+            translate([0, mb_y + mb_prof/2 + folga + 1, corpo_h/2])
+                cube([mbolso_w + 8, 2, corpo_h], center = true);
 
             // ---------- ressaltos dos ombros (pinos dos braços) ----------
             for (x = [-1, 1])
@@ -60,7 +60,7 @@ module corpo() {
             // ---------- pinos de encaixe da cabeça ----------
             for (x = [-1, 1], y = [-1, 1])
                 translate([x * 20, y * 16, corpo_h])
-                    cylinder(d = 4.8, h = 5);
+                    cylinder(d = 4.8, h = cab_pino_h);
 
             // ---------- colunas internas de fixação na base ----------
             for (x = [-1, 1], y = [-1, 1])
@@ -74,11 +74,21 @@ module corpo() {
 
         // ---------- fenda de inserção da placa (no topo) ----------
         translate([0, mb_y, corpo_h - parede/2])
-            cube([mbolso_w + 0.4, 3.4, parede + 0.4], center = true);
+            cube([mb_w + 2*folga, mb_prof + 2*folga, parede + 0.4], center = true);
+
+        translate([0, 0, corpo_h - parede/2])
+            cube([passagem_w, passagem_d, parede + 0.4], center = true);
+
+        translate([-passagem_w/2, mb_y + mb_prof/2 - folga, parede])
+            cube([passagem_w, 3 + 2*folga, mb_base_z - 2*parede]);
+
+        for (x = [-1, 1], y = [-1, 1])
+            translate([x * mont_x, y * mont_y, 6])
+                cylinder(d = acesso_m3_d, h = corpo_h);
 
         // ---------- furos dos botões ----------
         for (x = [-1, 1])
-            translate([x * botao_sep/2, -corpo_d/2, 15])
+            translate([x * botao_sep/2, -corpo_d/2, botao_z])
                 rotate([90, 0, 0])
                     cylinder(d = botao_d, h = parede + 4,
                              center = true);

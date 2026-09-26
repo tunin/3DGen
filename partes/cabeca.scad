@@ -13,8 +13,8 @@ include <../parametros.scad>
 wz       = 27;                              // centro da janela (Z)
 bolso_w  = led_tam + 1;                     // largura interna do bolso
 bolso_h  = led_tam + 3;                     // altura interna do bolso
-led_y    = -cab_d/2 + parede + led_prof/2;  // eixo Y do display
-z_fundo  = wz - bolso_h/2 - 1;              // topo das prateleiras
+led_y    = -cab_d/2 + parede + folga + led_prof/2;  // eixo Y do display
+z_fundo  = led_base_z;              // topo das prateleiras
 trilho_h = cab_h - parede - z_fundo;        // altura dos trilhos
 
 module cabeca() {
@@ -35,7 +35,7 @@ module cabeca() {
                 translate([x * (bolso_w/2 + 2), led_y,
                            z_fundo + trilho_h/2])
                     difference() {
-                        cube([4, led_prof, trilho_h], center = true);
+                        cube([4, led_prof + 2*folga + 0.2, trilho_h], center = true);
                         translate([-x * 1.1, 0, 0])
                             cube([2.2, 2.6, trilho_h + 2],
                                  center = true);
@@ -45,11 +45,11 @@ module cabeca() {
             for (x = [-1, 1])
                 translate([x * (bolso_w/2 + 1), led_y,
                            z_fundo - 1.5])
-                    cube([7, led_prof, 3], center = true);
+                    cube([7, led_prof + 2*folga + 0.2, 3], center = true);
 
             // ---------- painel traseiro do bolso ----------
-            translate([0, -13, (z_fundo + cab_h)/2])
-                cube([bolso_w + 8, 2, cab_h - z_fundo], center = true);
+            translate([0, led_y + led_prof/2 + folga + 1, cab_h/2])
+                cube([bolso_w + 8, 2, cab_h], center = true);
 
             // ---------- antena ----------
             translate([0, 14, cab_h]) {
@@ -70,12 +70,18 @@ module cabeca() {
 
         // ---------- fenda de inserção do display (no topo) ----------
         translate([0, led_y, cab_h - parede/2])
-            cube([bolso_w + 2, 6, parede + 0.4], center = true);
+            cube([led_tam + 2*folga, led_prof + 2*folga, parede + 0.4], center = true);
+
+        translate([0, 0, parede/2])
+            cube([passagem_w, passagem_d, parede + 0.4], center = true);
+
+        translate([-passagem_w/2, led_y + led_prof/2 - folga, parede])
+            cube([passagem_w, 3 + 2*folga, led_base_z - parede - 2*folga]);
 
         // ---------- furos dos pinos do torso ----------
         for (x = [-1, 1], y = [-1, 1])
             translate([x * 20, y * 16, -0.1])
-                cylinder(d = 5.2, h = parede + 0.2);
+                cylinder(d = 4.8 + 2*folga, h = cab_pino_h + folga + 0.2);
     }
 }
 

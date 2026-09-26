@@ -23,7 +23,7 @@ module suporte_pilhas() {
 
         for (x = [-1, 1], y = [-1, 1])
             translate([x * mont_x, y * mont_y, -0.1])
-                cylinder(d = 11 + 2*folga, h = cr_h + 0.2);
+                cylinder(d = 11 + 2*folga_berco, h = cr_h + 0.2);
 
         // canais das pilhas (abertos no topo — efeito mola)
         for (x = xs)
